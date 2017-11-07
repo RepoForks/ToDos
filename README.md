@@ -4,4 +4,4 @@
 
 Simple To Do application, built to learn how CoreData works.
 
-![](Animation.gif)
+![](README/AppAnimation.gif)
