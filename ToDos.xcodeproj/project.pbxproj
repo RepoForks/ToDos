@@ -37,6 +37,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D25E12651FB218030079F48B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D26D035A1FB2013E0082824F /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		D25E12661FB218050079F48B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D26D035C1FB2013E0082824F /* Main.storyboard */,
+				D26D03641FB2013E0082824F /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D25E12671FB218070079F48B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D26D03581FB2013E0082824F /* AppDelegate.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		D26D034C1FB2013E0082824F = {
 			isa = PBXGroup;
 			children = (
@@ -56,11 +81,10 @@
 		D26D03571FB2013E0082824F /* ToDos */ = {
 			isa = PBXGroup;
 			children = (
-				D26D03581FB2013E0082824F /* AppDelegate.swift */,
-				D26D035A1FB2013E0082824F /* ViewController.swift */,
-				D26D035C1FB2013E0082824F /* Main.storyboard */,
+				D25E12671FB218070079F48B /* Models */,
+				D25E12661FB218050079F48B /* Views */,
+				D25E12651FB218030079F48B /* Controllers */,
 				D26D03621FB2013E0082824F /* Assets.xcassets */,
-				D26D03641FB2013E0082824F /* LaunchScreen.storyboard */,
 				D26D03671FB2013E0082824F /* Info.plist */,
 				D26D035F1FB2013E0082824F /* ToDos.xcdatamodeld */,
 			);
