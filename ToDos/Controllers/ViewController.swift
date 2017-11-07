@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedContext = appDelegate?.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TaskList")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Task")
         do {
             taskList = (try managedContext?.fetch(fetchRequest))!
         } catch let error as NSError {
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { [unowned self] action in
             let textField = alert.textFields?.first
             let taskToSave = textField?.text
-            self.save(item: taskToSave!)
+            self.save(description: taskToSave!)
             self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -40,20 +40,20 @@ class ViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    func save(item: String) {
+    func save(description: String) {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedContext = appDelegate?.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "TaskList", in: managedContext!)
+        let entity = NSEntityDescription.entity(forEntityName: "Task", in: managedContext!)
         let task = NSManagedObject(entity: entity!, insertInto: managedContext)
-        task.setValue(item, forKeyPath: "task")
+        task.setValue(description, forKeyPath: "taskDescription")
         do {
             try managedContext?.save()
             taskList.append(task)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-        
     }
+    
 }
 
 extension ViewController: UITableViewDataSource {
@@ -65,7 +65,7 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let task = taskList[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = task.value(forKeyPath: "task") as? String
+        cell.textLabel?.text = task.value(forKeyPath: "taskDescription") as? String
         return cell
     }
     
