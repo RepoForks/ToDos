@@ -1,7 +1,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class TableViewController: UITableViewController {
     
     var taskList = [NSManagedObject]()
     
@@ -23,7 +23,28 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var tableView: UITableView!
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return taskList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let task = taskList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = task.value(forKeyPath: "taskDescription") as? String
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let deleteTask: UIAlertAction = UIAlertAction(title: "Delete Task", style: .destructive) { action in
+            self.delete(index: indexPath.row)
+            self.tableView.reloadData()
+        }
+        let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action in }
+        actionSheet.addAction(deleteTask)
+        actionSheet.addAction(cancel)
+        present(actionSheet, animated: true, completion: nil)
+    }
     
     @IBAction func addTodo(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "New Task", message: "What would you like to do?", preferredStyle: .alert)
@@ -54,20 +75,23 @@ class ViewController: UIViewController {
         }
     }
     
-}
-
-extension ViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskList.count
+    func delete(index: Int) {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        do {
+            taskList = (try managedContext?.fetch(fetchRequest))!
+            let task = taskList[index]
+            managedContext?.delete(task)
+            do {
+                try managedContext?.save()
+                taskList.remove(at: index)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } catch {
+            print("Error with request: \(error)")
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let task = taskList[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = task.value(forKeyPath: "taskDescription") as? String
-        return cell
-    }
-    
 }
-
