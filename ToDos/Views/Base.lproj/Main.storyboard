@@ -35,7 +35,7 @@
                     <navigationItem key="navigationItem" id="lwP-YB-TAb">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="GuJ-UN-5ja">
                             <connections>
-                                <action selector="addTodo:" destination="6EC-pO-lbK" id="nJS-62-E0y"/>
+                                <action selector="addTask:" destination="6EC-pO-lbK" id="YwP-Co-VY3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

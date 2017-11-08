@@ -1,6 +1,7 @@
 import UIKit
 import CoreData
 
+
 class TableViewController: UITableViewController {
     
     var taskList = [NSManagedObject]()
@@ -13,11 +14,10 @@ class TableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let managedContext = appDelegate?.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Task")
+        let context = getContext()
+        let request = getFetchRequest()
         do {
-            taskList = (try managedContext?.fetch(fetchRequest))!
+            taskList = (try context.fetch(request))
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -37,7 +37,7 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let deleteTask: UIAlertAction = UIAlertAction(title: "Delete Task", style: .destructive) { action in
-            self.delete(index: indexPath.row)
+            self.deleteTask(index: indexPath.row)
             self.tableView.reloadData()
         }
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action in }
@@ -46,12 +46,12 @@ class TableViewController: UITableViewController {
         present(actionSheet, animated: true, completion: nil)
     }
     
-    @IBAction func addTodo(_ sender: UIBarButtonItem) {
+    @IBAction func addTask(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "New Task", message: "What would you like to do?", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { [unowned self] action in
             let textField = alert.textFields?.first
             let taskToSave = textField?.text
-            self.save(description: taskToSave!)
+            self.saveTask(description: taskToSave!)
             self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -61,30 +61,28 @@ class TableViewController: UITableViewController {
         present(alert, animated: true)
     }
     
-    func save(description: String) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let managedContext = appDelegate?.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Task", in: managedContext!)
-        let task = NSManagedObject(entity: entity!, insertInto: managedContext)
+    func saveTask(description: String) {
+        let context = getContext()
+        let entity = NSEntityDescription.entity(forEntityName: "Task", in: context)
+        let task = NSManagedObject(entity: entity!, insertInto: context)
         task.setValue(description, forKeyPath: "taskDescription")
         do {
-            try managedContext?.save()
+            try context.save()
             taskList.append(task)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
-    func delete(index: Int) {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let managedContext = appDelegate?.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+    func deleteTask(index: Int) {
+        let context = getContext()
+        let request = getFetchRequest()
         do {
-            taskList = (try managedContext?.fetch(fetchRequest))!
+            taskList = (try context.fetch(request))
             let task = taskList[index]
-            managedContext?.delete(task)
+            context.delete(task)
             do {
-                try managedContext?.save()
+                try context.save()
                 taskList.remove(at: index)
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
@@ -93,5 +91,25 @@ class TableViewController: UITableViewController {
             print("Error with request: \(error)")
         }
     }
+    
+    func getContext() -> NSManagedObjectContext{
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        return context!
+    }
+    
+    func getFetchRequest() -> NSFetchRequest<NSManagedObject> {
+        let request = NSFetchRequest<NSManagedObject>(entityName: "Task")
+        return request
+    }
+    
+    /*
+    In case working with multiple entities use this version of fetchRequest().
+     
+     func fetchRequest(entityName: String) -> NSFetchRequest<NSManagedObject> {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
+        return fetchRequest
+     }
+     */
     
 }
