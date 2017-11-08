@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D23FD0B41FB3470300C058FE /* InitialData.xcappdata in Resources */ = {isa = PBXBuildFile; fileRef = D23FD0B31FB3470300C058FE /* InitialData.xcappdata */; };
 		D26D03591FB2013E0082824F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26D03581FB2013E0082824F /* AppDelegate.swift */; };
 		D26D035B1FB2013E0082824F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26D035A1FB2013E0082824F /* ViewController.swift */; };
 		D26D035E1FB2013E0082824F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D26D035C1FB2013E0082824F /* Main.storyboard */; };
@@ -17,7 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D23FD0B31FB3470300C058FE /* InitialData.xcappdata */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = InitialData.xcappdata; sourceTree = "<group>"; };
 		D26D03551FB2013E0082824F /* ToDos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D26D03581FB2013E0082824F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D26D035A1FB2013E0082824F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,14 +37,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D23FD0B21FB346F700C058FE /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				D23FD0B31FB3470300C058FE /* InitialData.xcappdata */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		D25E12651FB218030079F48B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +84,6 @@
 				D25E12671FB218070079F48B /* Models */,
 				D25E12661FB218050079F48B /* Views */,
 				D25E12651FB218030079F48B /* Controllers */,
-				D23FD0B21FB346F700C058FE /* Resources */,
 				D26D03621FB2013E0082824F /* Assets.xcassets */,
 				D26D03671FB2013E0082824F /* Info.plist */,
 				D26D035F1FB2013E0082824F /* ToDos.xcdatamodeld */,
@@ -162,7 +151,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D26D03661FB2013E0082824F /* LaunchScreen.storyboard in Resources */,
-				D23FD0B41FB3470300C058FE /* InitialData.xcappdata in Resources */,
 				D26D03631FB2013E0082824F /* Assets.xcassets in Resources */,
 				D26D035E1FB2013E0082824F /* Main.storyboard in Resources */,
 			);
