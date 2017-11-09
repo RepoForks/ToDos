@@ -35,15 +35,21 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let deleteTask: UIAlertAction = UIAlertAction(title: "Delete Task", style: .destructive) { action in
+        let cell = tableView.cellForRow(at: indexPath)
+        let actionSheet = UIAlertController(title: cell?.textLabel?.text, message: nil, preferredStyle: .actionSheet)
+        let delete: UIAlertAction = UIAlertAction(title: "Delete Task", style: .destructive) { action in
             self.deleteTask(index: indexPath.row)
             self.tableView.reloadData()
         }
+        let copy: UIAlertAction = UIAlertAction(title: "Copy", style: .default) { action in
+            UIPasteboard.general.string = cell?.textLabel?.text
+        }
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action in }
-        actionSheet.addAction(deleteTask)
+        actionSheet.addAction(delete)
+        actionSheet.addAction(copy)
         actionSheet.addAction(cancel)
         present(actionSheet, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBAction func addTask(_ sender: UIBarButtonItem) {
